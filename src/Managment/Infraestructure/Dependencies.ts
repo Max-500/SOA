@@ -43,28 +43,32 @@ const SubjectRepository = GetSubjectRepository(dbType);
 const TutorRepository = GetTutorRepository(dbType); 
 
 const createSubjectUseCase = new CreateSubjectUseCase(SubjectRepository);
-export const createSubjectController = new CreateSubjectController(createSubjectUseCase);
+const createSubjectController = new CreateSubjectController(createSubjectUseCase);
 
 const createStudenUseCase = new CreateStudenUseCase(StudentRepository);
-export const createStudentController = new CreateStudentController(createStudenUseCase);
+const createStudentController = new CreateStudentController(createStudenUseCase);
 
 const assignSubjectToStudentUseCase = new AssignSubjectToStudentUseCase(StudentRepository);
-export const assignSubjectToStudentController = new AssignToSubjectToStudentController(assignSubjectToStudentUseCase);
+const assignSubjectToStudentController = new AssignToSubjectToStudentController(assignSubjectToStudentUseCase);
 
 const getAllStudentsUseCase = new GetAllStudentsUseCase(StudentRepository);
-export const getAllStudentsController = new GetAllStudentsController(getAllStudentsUseCase);
+const getAllStudentsController = new GetAllStudentsController(getAllStudentsUseCase);
 
 const getStudentSubjectUseCase = new GetStudentSubjectsUseCase(StudentRepository);
-export const getStudentSubjectsController = new GetStudentSubjectController(getStudentSubjectUseCase);
+const getStudentSubjectsController = new GetStudentSubjectController(getStudentSubjectUseCase);
 
 const createTutorUseCase = new CreateTutorUseCase(TutorRepository);
-export const createTutorController = new CreateTutorController(createTutorUseCase);
+const createTutorController = new CreateTutorController(createTutorUseCase);
 
 const assignStudentToTutorUseCase = new AssignStudentToTutorUseCase(TutorRepository);
-export const assingStudentToTutorController = new AssignStudentToATutorController(assignStudentToTutorUseCase);
+const assingStudentToTutorController = new AssignStudentToATutorController(assignStudentToTutorUseCase);
 
 const getAllTutoredUseCase = new GetAllTutoredUseCase(TutorRepository);
-export const getAllTutoredController = new GetAllTutoredController(getAllTutoredUseCase);
+const getAllTutoredController = new GetAllTutoredController(getAllTutoredUseCase);
 
 const getAllStudentsFromATutorUseCase = new GetAllStudentsFromATutorUseCase(TutorRepository);
-export const getAllStudentsFromATutorController = new GetAllStudentsFromATutorController(getAllStudentsFromATutorUseCase);
+const getAllStudentsFromATutorController = new GetAllStudentsFromATutorController(getAllStudentsFromATutorUseCase);
+
+export { createSubjectController, createStudentController, assignSubjectToStudentController, getAllStudentsController,  getStudentSubjectsController,
+  createTutorController, assingStudentToTutorController, getAllTutoredController, getAllStudentsFromATutorController
+}
