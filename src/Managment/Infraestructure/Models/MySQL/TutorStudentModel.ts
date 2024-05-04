@@ -1,12 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../../../../Database/Config/MySQL/Database";
 
-export class SubjectModel extends Model {
+export class TutorStudentModel extends Model {
     uuid!:string;
-    name!:string;
+    tutor_uuid!:string;
+    student_uuid!:string;
 }
 
-SubjectModel.init({
+TutorStudentModel.init({
     uuid: { type:DataTypes.UUID, defaultValue:DataTypes.UUIDV4, primaryKey:true },
-    name: { type:DataTypes.STRING, allowNull:false, unique:true }
-}, { sequelize, modelName:'subject' });
+}, { sequelize, modelName:'tutorstudent' });
