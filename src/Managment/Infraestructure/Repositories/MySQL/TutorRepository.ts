@@ -2,7 +2,7 @@ import { Student } from "../../../Domain/Entities/Student";
 import { Tutor } from "../../../Domain/Entities/Tutor";
 import { ITutor } from "../../../Domain/Ports/ITutor";
 
-export class TutorRepository implements ITutor {
+export class TutorMySQLRepository implements ITutor {
     async assignAStudentToATutor(uuid: string, studentUUID: string): Promise<any> {
         throw new Error("Method not implemented.");
     }

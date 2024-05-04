@@ -2,7 +2,7 @@ import { Student } from "../../../Domain/Entities/Student";
 import { Subject } from "../../../Domain/Entities/Subject";
 import { IStudent } from "../../../Domain/Ports/IStudent";
 
-export class StudentMongoRepository implements IStudent {
+export class StudentMongoDBRepository implements IStudent {
     async getAllStudents(): Promise<any[] | Student[]> {
         throw new Error("Method not implemented.");
     }
