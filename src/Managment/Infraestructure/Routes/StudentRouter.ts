@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { assignSubjectToStudentController, createStudentController, getAllStudentsController, getStudentSubjectsController } from "../Dependencies";
 
-const StudentRouter = Router();
+const StudentRouter:Router = Router();
 
 // Obtener todos los estudiantes
 StudentRouter.get('', getAllStudentsController.run.bind(getAllStudentsController));

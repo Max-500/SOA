@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { assingStudentToTutorController, createTutorController, getAllStudentsFromATutorController, getAllTutoredController } from "../Dependencies";
 
-const TutorRouter = Router();
+const TutorRouter:Router = Router();
 
 // Asignar un alumno a un tutor
 TutorRouter.post('/:tutor/students/:student', assingStudentToTutorController.run.bind(assingStudentToTutorController));

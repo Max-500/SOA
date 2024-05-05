@@ -9,4 +9,4 @@ export class TutorStudentModel extends Model {
 
 TutorStudentModel.init({
     uuid: { type:DataTypes.UUID, defaultValue:DataTypes.UUIDV4, primaryKey:true },
-}, { sequelize, modelName:'tutorstudent' });
+}, { sequelize, modelName:'tutors_tudent' });

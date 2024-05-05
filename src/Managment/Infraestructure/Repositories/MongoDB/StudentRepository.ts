@@ -4,6 +4,9 @@ import { Subject } from "../../../Domain/Entities/Subject";
 import { IStudent } from "../../../Domain/Ports/IStudent";
 import StudentModel from "../../Models/MongoDB/StudentModel";
 import SubjectModel from "../../Models/MongoDB/SubjectModel";
+import { isEmpty } from "../../Helpers/Rules";
+import { FromDataToStudent } from "../../Mappers/StudentMapper";
+import { FromDataToSubject } from "../../Mappers/SubjectMapper";
 
 export class StudentMongoDBRepository implements IStudent {
     async getAllStudents(): Promise<any | Student[]> {
@@ -11,7 +14,7 @@ export class StudentMongoDBRepository implements IStudent {
             const students = await StudentModel.find({});
             return {
                 status: 200,
-                data: students
+                data: FromDataToStudent(students)
             }
         } catch (error:any) {
             return {
@@ -26,7 +29,7 @@ export class StudentMongoDBRepository implements IStudent {
             if(!studentData){
                 return {
                     status:404,
-                    message:"The student was not found-"
+                    error:"The student was not found."
                 }
             }
             const data = studentData.subjects_uuid as string[];
@@ -47,13 +50,36 @@ export class StudentMongoDBRepository implements IStudent {
 
     async createStudent(name: string, lastname: string, matricula: string): Promise<Student|any> {
         try {
+            if(isEmpty([name, lastname, matricula])){
+                return {
+                    status: 400,
+                    error: 'You are sending empty fields.'
+                }
+            }
             const student:Student = new Student(name, lastname, matricula);
             await StudentModel.create(student);
             return {
                 status: 201,
-                message: "The student was created successfully."
+                message: "The student was created successfully.",
+                data: {
+                    "type": "student",
+                    "uuid": student.uuid,
+                    "attributes": {
+                        "name": student.name,
+                        "lastname": student.lastname,
+                        "matricula": student.matricula
+                    }
+                }
             }
         } catch (error:any) {
+            if(error.errorResponse.errmsg.includes("duplicate key error collection")){
+                const keys = Object.keys(error.errorResponse.keyValue);
+                const errorMessage = `The following data must be unique: ${keys.join(", ")}`;
+                return {
+                    status: 400,
+                    error: errorMessage
+                }
+            }
             return {
                 status: 500,
                 error: error
@@ -65,20 +91,15 @@ export class StudentMongoDBRepository implements IStudent {
             const student:any = await StudentModel.findOne({ uuid:uuid });
             if(!student){
                 return {
-                    status:404,
-                    message:"The student was not found-"
+                    status: 404,
+                    error:"The student was not found-"
                 }
             }
-            const subjects: ((Document<unknown, {}, { [x: string]: unknown; }> & { [x: string]: unknown; } & Required<{ _id: unknown; }>) | null)[] = [];
-                    
-            for (const element of student.subjects_uuid) {
-                const subject = await SubjectModel.findOne({ uuid: element });
-                subjects.push(subject);
-            }
+            const subjects = await SubjectModel.find({ uuid: { $in: student.subjects_uuid } });
 
             return {
                 status: 200,
-                data: subjects
+                data: FromDataToSubject(subjects)
             };
         } catch (error) {
             return {
